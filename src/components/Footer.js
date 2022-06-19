@@ -2,6 +2,12 @@ import React, { memo } from 'react'
 
 const Footer = memo((props) => {
     const { setStatusFilter, activeButton, clearCompleted, numOfTodosLeft, numOfTodos } = props
+
+    const menuItem = [
+        {href: '#/', title: 'ALL', key: '1'},
+        {href: '#/active', title: 'ACTIVE', key: '2'},
+        {href: '#/completed', title: 'COMPLETED', key: '3'},
+      ];
     return (
         <footer className="footer">
             <span className="todo-count">
@@ -11,16 +17,22 @@ const Footer = memo((props) => {
                 <span> left</span>
             </span>
             <ul className="filters">
-                <li>
-                    <a
-                        href="#/"
-                        className={`${activeButton === 'ALL' ? "selected" : ''}`}
-                        onClick={() => setStatusFilter('ALL')}
-                    >
-                        All
-                    </a>
+
+                {menuItem.map(value => {
+                  return (
+                    <li key={value.key}>
+                        <a
+                            href={value.href}
+                            className={`${activeButton === value.title ? "selected" : ''}`}
+                            onClick={() => setStatusFilter(value.title)}
+                        >
+                            {value.title}
+                        </a>
                 </li>
-                <span></span>
+                  );
+                })}
+                
+                {/* <span></span>
                 <li>
                     <a
                         href="#/active"
@@ -39,7 +51,7 @@ const Footer = memo((props) => {
                     >
                         Completed
                     </a>
-                </li>
+                </li> */}
             </ul>
             {
                 numOfTodosLeft < numOfTodos && <button className="clear-completed" onClick={clearCompleted}>Clear completed</button>
